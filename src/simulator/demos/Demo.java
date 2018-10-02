@@ -1,10 +1,11 @@
 package simulator.demos;
 
-public class Demo
-{
+import simulator.ui.SimulatorUI;
 
-        public static void main(String[] args) {
-            
-        }
+public class Demo {
+	public static void main(String[] args) {
+		SimulatorUI ui = new SimulatorUI();
+		ui.setVisible(true);
+	}
 
 }
