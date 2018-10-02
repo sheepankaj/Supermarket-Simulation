@@ -12,7 +12,7 @@ public class SimulatorUI extends JFrame {
 
 	private JPanel contentPane;
 	/**
-	 * Create the ddframe.
+	 * Create the frame.
 	 */
 	public SimulatorUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
