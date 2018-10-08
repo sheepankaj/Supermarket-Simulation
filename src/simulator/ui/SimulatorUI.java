@@ -25,6 +25,14 @@ public class SimulatorUI extends JFrame {
 	private JTextField textField;
 	private JTextField txAvgProductsPerTrolley;
 	private JTextField txNoOfLostCustomers;
+	private JTextField txCheckout_1;
+	private JTextField txCheckout_2;
+	private JTextField txCheckout_3;
+	private JTextField txCheckout_4;
+	private JTextField txCheckout_5;
+	private JTextField txCheckout_6;
+	private JTextField txCheckout_7;
+	private JTextField txCheckout_8;
 	/**
 	 * Create the frame.
 	 */
@@ -41,7 +49,127 @@ public class SimulatorUI extends JFrame {
 		checkOuts.setBounds(904, 11, 270, 539);
 		checkOuts.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Checkout Queues", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		contentPane.add(checkOuts);
-		checkOuts.setLayout(new BoxLayout(checkOuts, BoxLayout.Y_AXIS));
+		
+		JLabel lbCheckout_1 = new JLabel("Checkout : 01");
+		
+		txCheckout_1 = new JTextField();
+		txCheckout_1.setColumns(10);
+		
+		JLabel lbCheckout_2 = new JLabel("Checkout : 02");
+		
+		txCheckout_2 = new JTextField();
+		txCheckout_2.setColumns(10);
+		
+		JLabel lbCheckout_3 = new JLabel("Checkout : 03");
+		
+		txCheckout_3 = new JTextField();
+		txCheckout_3.setColumns(10);
+		
+		JLabel lbCheckout_4 = new JLabel("Checkout : 04");
+		
+		txCheckout_4 = new JTextField();
+		txCheckout_4.setColumns(10);
+		
+		JLabel lbCheckout_5 = new JLabel("Checkout : 05");
+		
+		txCheckout_5 = new JTextField();
+		txCheckout_5.setColumns(10);
+		
+		JLabel lbCheckout_6 = new JLabel("Checkout : 06");
+		
+		txCheckout_6 = new JTextField();
+		txCheckout_6.setColumns(10);
+		
+		JLabel lbCheckout_7 = new JLabel("Checkout : 07");
+		
+		txCheckout_7 = new JTextField();
+		txCheckout_7.setColumns(10);
+		
+		JLabel lbCheclout_8 = new JLabel("Checkout : 08");
+		
+		txCheckout_8 = new JTextField();
+		txCheckout_8.setColumns(10);
+		GroupLayout gl_checkOuts = new GroupLayout(checkOuts);
+		gl_checkOuts.setHorizontalGroup(
+			gl_checkOuts.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_checkOuts.createSequentialGroup()
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_checkOuts.createSequentialGroup()
+							.addComponent(lbCheckout_4)
+							.addGap(18)
+							.addComponent(txCheckout_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_checkOuts.createSequentialGroup()
+							.addComponent(lbCheckout_1)
+							.addGap(18)
+							.addComponent(txCheckout_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_checkOuts.createSequentialGroup()
+							.addGroup(gl_checkOuts.createParallelGroup(Alignment.TRAILING)
+								.addComponent(lbCheckout_3)
+								.addComponent(lbCheckout_2))
+							.addGap(18)
+							.addGroup(gl_checkOuts.createParallelGroup(Alignment.LEADING)
+								.addComponent(txCheckout_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txCheckout_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_checkOuts.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_checkOuts.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_checkOuts.createSequentialGroup()
+									.addComponent(lbCheckout_6)
+									.addGap(18)
+									.addComponent(txCheckout_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_checkOuts.createSequentialGroup()
+									.addComponent(lbCheckout_5)
+									.addGap(18)
+									.addComponent(txCheckout_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_checkOuts.createSequentialGroup()
+									.addComponent(lbCheckout_7)
+									.addGap(18)
+									.addComponent(txCheckout_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_checkOuts.createSequentialGroup()
+									.addComponent(lbCheclout_8)
+									.addGap(18)
+									.addComponent(txCheckout_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))))
+					.addContainerGap(69, Short.MAX_VALUE))
+		);
+		gl_checkOuts.setVerticalGroup(
+			gl_checkOuts.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_checkOuts.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheckout_1)
+						.addComponent(txCheckout_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheckout_2)
+						.addComponent(txCheckout_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txCheckout_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbCheckout_3))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheckout_4)
+						.addComponent(txCheckout_4, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheckout_5)
+						.addComponent(txCheckout_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheckout_6)
+						.addComponent(txCheckout_6, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheckout_7)
+						.addComponent(txCheckout_7, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_checkOuts.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCheclout_8)
+						.addComponent(txCheckout_8, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(225, Short.MAX_VALUE))
+		);
+		checkOuts.setLayout(gl_checkOuts);
 		
 		JPanel parameters = new JPanel();
 		parameters.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
@@ -92,19 +220,19 @@ public class SimulatorUI extends JFrame {
 						.addComponent(lbTotUtiForCheckout)
 						.addComponent(lbTotProductsProcessed)
 						.addComponent(lbAvgCustomerWaitTime)
-						.addComponent(lbCheckoutUtilization)
 						.addComponent(lbAvgProductsPerTrolley)
-						.addComponent(lbNoOfLostCustomers))
+						.addComponent(lbNoOfLostCustomers)
+						.addComponent(lbCheckoutUtilization))
 					.addGap(38)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.LEADING)
 						.addComponent(txNoOfLostCustomers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txAvgProductsPerTrolley, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txAvgCustomerWaitTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txTotProductsProcessed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txTotUtiForCheckout, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txTotWaitCustomer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(115, Short.MAX_VALUE))
+						.addComponent(txTotWaitCustomer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		gl_parameters.setVerticalGroup(
 			gl_parameters.createParallelGroup(Alignment.LEADING)
@@ -126,8 +254,8 @@ public class SimulatorUI extends JFrame {
 						.addComponent(txAvgCustomerWaitTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lbCheckoutUtilization)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbCheckoutUtilization))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lbAvgProductsPerTrolley)
@@ -136,7 +264,7 @@ public class SimulatorUI extends JFrame {
 					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lbNoOfLostCustomers)
 						.addComponent(txNoOfLostCustomers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(23, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		parameters.setLayout(gl_parameters);
 	}
