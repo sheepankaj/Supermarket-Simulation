@@ -1,22 +1,26 @@
 package simulator.ui;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSpinner;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
-import javax.swing.JTextField;
 
 public class SimulatorUI extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txTotWaitCustomer;
 	private JTextField txTotUtiForCheckout;
@@ -38,7 +42,7 @@ public class SimulatorUI extends JFrame {
 	 */
 	public SimulatorUI() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(5, 5, 1200, 600);
+		setBounds(5, 5, 700, 450);
 		contentPane = new JPanel();
 		contentPane.setToolTipText("");
 		contentPane.setBorder(null);
@@ -46,7 +50,7 @@ public class SimulatorUI extends JFrame {
 		contentPane.setLayout(null);
 		
 		JPanel checkOuts = new JPanel();
-		checkOuts.setBounds(904, 11, 270, 539);
+		checkOuts.setBounds(387, 25, 270, 331);
 		checkOuts.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Checkout Queues", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		contentPane.add(checkOuts);
 		
@@ -220,9 +224,9 @@ public class SimulatorUI extends JFrame {
 						.addComponent(lbTotUtiForCheckout)
 						.addComponent(lbTotProductsProcessed)
 						.addComponent(lbAvgCustomerWaitTime)
-						.addComponent(lbAvgProductsPerTrolley)
 						.addComponent(lbNoOfLostCustomers)
-						.addComponent(lbCheckoutUtilization))
+						.addComponent(lbCheckoutUtilization)
+						.addComponent(lbAvgProductsPerTrolley))
 					.addGap(38)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.LEADING)
 						.addComponent(txNoOfLostCustomers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -252,14 +256,14 @@ public class SimulatorUI extends JFrame {
 					.addGroup(gl_parameters.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lbAvgCustomerWaitTime)
 						.addComponent(txAvgCustomerWaitTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_parameters.createParallelGroup(Alignment.TRAILING)
 						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lbCheckoutUtilization))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lbAvgProductsPerTrolley)
-						.addComponent(txAvgProductsPerTrolley, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(gl_parameters.createParallelGroup(Alignment.LEADING)
+						.addComponent(txAvgProductsPerTrolley, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lbAvgProductsPerTrolley))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lbNoOfLostCustomers)
@@ -267,5 +271,14 @@ public class SimulatorUI extends JFrame {
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		parameters.setLayout(gl_parameters);
+		
+		JButton btnStart = new JButton("Start");
+		btnStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				System.out.println("works");
+			}
+		});
+		btnStart.setBounds(22, 333, 89, 23);
+		contentPane.add(btnStart);
 	}
 }

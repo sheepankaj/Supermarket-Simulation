@@ -13,7 +13,7 @@ public class RandomNumberGenerator
      * @param max Maximum (inclusive) value
      * @return random value inside the range
      */
-    public static int getRandomNumberInRange(int min, int max) {
+    public int getRandomNumberInRange(int min, int max) {
         if (min >= max) {
             throw new IllegalArgumentException("max must be greater than min");
         }
