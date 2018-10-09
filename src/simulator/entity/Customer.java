@@ -1,6 +1,7 @@
 package simulator.entity;
 
 import java.util.List;
+import java.util.Queue;
 
 import simulator.demos.Demo;
 import simulator.util.RandomNumberGenerator;
@@ -21,12 +22,19 @@ public class Customer implements Runnable {
 		{
 			for (CheckoutQueue queue : checkoutQueues) 
 			{
-				synchronized (queue) 
+				Queue<Customer> customers = queue.getCustomers();
+				synchronized (customers) 
 				{
-					if (queue.getCustomers().size() < 6) 
+					if (customers.size() < 6) 
 					{
-						queue.getCustomers().add(this);
+						customers.add(this);
+						customers.notifyAll();
 						break;
+					}
+					else
+					{
+						// need to release Checkout Queue's customer list
+						customers.notifyAll();
 					}
 				}
 			}

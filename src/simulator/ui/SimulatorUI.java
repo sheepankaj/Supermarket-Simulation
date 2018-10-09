@@ -177,7 +177,7 @@ public class SimulatorUI extends JFrame {
 		
 		JPanel parameters = new JPanel();
 		parameters.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Statistics", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		parameters.setBounds(22, 25, 343, 209);
+		parameters.setBounds(22, 25, 343, 211);
 		contentPane.add(parameters);
 		
 		JLabel lbTotWaitCustomer = new JLabel("Total wait time for Customer");
@@ -268,7 +268,7 @@ public class SimulatorUI extends JFrame {
 					.addGroup(gl_parameters.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lbNoOfLostCustomers)
 						.addComponent(txNoOfLostCustomers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(40, Short.MAX_VALUE))
 		);
 		parameters.setLayout(gl_parameters);
 		

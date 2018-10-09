@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import simulator.entity.CheckoutQueue;
+import simulator.entity.Customer;
 import simulator.ui.SimulatorUI;
 import simulator.util.CustomerGenerator;
 
@@ -13,7 +14,8 @@ public class Demo
 	private List<Thread> checkOutQueueThreads;
 	private static Demo demo;
 	private CustomerGenerator customerGenerator;
-	
+	private List<Customer> customersInSystem;	
+
 	public static void main(String[] args) 
 	{
 		SimulatorUI ui = new SimulatorUI();
@@ -27,6 +29,7 @@ public class Demo
 	{
 		customerGenerator = new CustomerGenerator();
 		checkOutQueueThreads = new ArrayList<>();
+		customersInSystem = new ArrayList<>();
 	}
 	
 	public static Demo getDemoInstance()
@@ -48,6 +51,14 @@ public class Demo
 			checkOutQueueThreads.add(t);
 			t.start();
 		}
+	}
+	
+	public List<Customer> getCustomersInSystem() {
+		return customersInSystem;
+	}
+
+	public void setCustomersInSystem(List<Customer> customersInSystem) {
+		this.customersInSystem = customersInSystem;
 	}
 
 }
