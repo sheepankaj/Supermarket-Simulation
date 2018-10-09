@@ -1,5 +1,6 @@
 package simulator.entity;
 
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -33,6 +34,7 @@ public class CheckoutQueue implements Runnable
 		System.out.println(Thread.currentThread().getName()+" started..!!");
 		while(true)
 		{
+			System.out.println("Current Customers in Checkout Queue : " + customers.size());
 			synchronized (customers) 
 			{
 				if(customers.size() == 0)
@@ -52,10 +54,18 @@ public class CheckoutQueue implements Runnable
 					int trolleyProductCount = customer.getTrolley().getProductCount();
 					for(int i = 0; i < trolleyProductCount; i++)
 					{
-						double scanTime = generator.getRandomDecimalNumberInRange(0.5, 6);
-						System.out.println(scanTime);
-//							long time = scanTime*1000;
-//							Thread.sleep(scanTime*1000);
+						double tempTime = generator.getRandomDecimalNumberInRange(0.5, 6);
+						long scanTime = (long)tempTime*1000;
+						DecimalFormat df = new DecimalFormat("#.##");
+						System.out.println(df.format(tempTime));
+						try 
+						{
+							Thread.sleep(scanTime);
+						} 
+						catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
 				
