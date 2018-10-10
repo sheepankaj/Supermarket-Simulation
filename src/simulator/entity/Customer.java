@@ -34,6 +34,7 @@ public class Customer implements Runnable {
 					else
 					{
 						// need to release Checkout Queue's customer list gg
+						// checking EE ide
 						customers.notifyAll();
 					}
 				}
