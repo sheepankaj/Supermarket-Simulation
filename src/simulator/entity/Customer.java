@@ -33,7 +33,7 @@ public class Customer implements Runnable {
 					}
 					else
 					{
-						// need to release Checkout Queue's customer list
+						// need to release Checkout Queue's customer list gg
 						customers.notifyAll();
 					}
 				}
