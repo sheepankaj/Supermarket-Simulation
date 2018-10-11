@@ -34,6 +34,7 @@ public class CheckoutQueue implements Runnable
 		System.out.println(Thread.currentThread().getName()+" started..!!");
 		while(true)
 		{
+			Customer customer = null;
 			System.out.println("Current Customers in Checkout Queue : " + customers.size());
 			synchronized (customers) 
 			{
@@ -49,26 +50,30 @@ public class CheckoutQueue implements Runnable
 				}
 				else
 				{
-					Customer customer = customers.poll();
-					customers.notifyAll();
-					int trolleyProductCount = customer.getTrolley().getProductCount();
-					for(int i = 0; i < trolleyProductCount; i++)
-					{
-						double tempTime = generator.getRandomDecimalNumberInRange(0.5, 6);
-						long scanTime = (long)tempTime*1000;
-						DecimalFormat df = new DecimalFormat("#.##");
-						System.out.println(df.format(tempTime));
-						try 
-						{
-							Thread.sleep(scanTime);
-						} 
-						catch (InterruptedException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+					customer = customers.poll();
+					customers.notifyAll();					
 				}
 				
+			}
+			if(customer != null)
+			{
+				int trolleyProductCount = customer.getTrolley().getProductCount();
+				for(int i = 0; i < trolleyProductCount; i++)
+				{
+					double tempTime = generator.getRandomDecimalNumberInRange(0.5, 6);
+					long scanTime = (long)tempTime*1000;
+					DecimalFormat df = new DecimalFormat("#.##");
+					System.out.println(df.format(tempTime));
+					try 
+					{
+						Thread.sleep(scanTime);
+					} 
+					catch (InterruptedException e) 
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
 			}
 		}			
 	}

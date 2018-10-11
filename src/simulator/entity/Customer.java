@@ -13,6 +13,8 @@ public class Customer implements Runnable {
 
 	private Trolley trolley;
 	private RandomNumberGenerator generator = new RandomNumberGenerator();
+	private long queueJoinedTime;
+	private long trolleyCleardTime;	
 
 	@Override
 	public void run() {
@@ -28,6 +30,7 @@ public class Customer implements Runnable {
 					if (customers.size() < 6) 
 					{
 						customers.add(this);
+						queueJoinedTime = System.currentTimeMillis();
 						customers.notifyAll();
 						break;
 					}
@@ -40,20 +43,36 @@ public class Customer implements Runnable {
 				}
 			}
 		} 
-		else 
-		{
-			try 
-			{
-				System.out.println("Going to Wait : " + Thread.currentThread().getName());
-				wait();
-			} 
-			catch (InterruptedException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+//		else 
+//		{
+//			try 
+//			{
+//				System.out.println("Going to Wait : " + Thread.currentThread().getName());
+//				wait();
+//			} 
+//			catch (InterruptedException e) 
+//			{
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 
+	}
+	
+	public long getQueueJoinedTime() {
+		return queueJoinedTime;
+	}
+
+	public void setQueueJoinedTime(long queueJoinedTime) {
+		this.queueJoinedTime = queueJoinedTime;
+	}
+
+	public long getTrolleyCleardTime() {
+		return trolleyCleardTime;
+	}
+
+	public void setTrolleyCleardTime(long trolleyCleardTime) {
+		this.trolleyCleardTime = trolleyCleardTime;
 	}
 
 	public Trolley getTrolley() {
@@ -62,6 +81,11 @@ public class Customer implements Runnable {
 
 	public void setTrolley(Trolley trolley) {
 		this.trolley = trolley;
+	}
+	
+	public double getWaitingTimeInQueue(long trolleyClearedTime) {
+		return (trolleyClearedTime-queueJoinedTime)/1000;
+		
 	}
 
 }
