@@ -3,6 +3,8 @@ package simulator.ui;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -37,6 +39,7 @@ public class SimulatorUI extends JFrame {
 	private JTextField txCheckout_6;
 	private JTextField txCheckout_7;
 	private JTextField txCheckout_8;
+	private Map<Integer,JTextField> checkOutAssociationMap = new HashMap<>(8);
 	/**
 	 * Create the frame.
 	 */
@@ -57,41 +60,49 @@ public class SimulatorUI extends JFrame {
 		JLabel lbCheckout_1 = new JLabel("Checkout : 01");
 		
 		txCheckout_1 = new JTextField();
+		checkOutAssociationMap.put( 1, txCheckout_1 );
 		txCheckout_1.setColumns(10);
 		
 		JLabel lbCheckout_2 = new JLabel("Checkout : 02");
 		
 		txCheckout_2 = new JTextField();
+		checkOutAssociationMap.put( 2, txCheckout_2 );
 		txCheckout_2.setColumns(10);
 		
 		JLabel lbCheckout_3 = new JLabel("Checkout : 03");
 		
 		txCheckout_3 = new JTextField();
+		checkOutAssociationMap.put( 3, txCheckout_3 );
 		txCheckout_3.setColumns(10);
 		
 		JLabel lbCheckout_4 = new JLabel("Checkout : 04");
 		
 		txCheckout_4 = new JTextField();
+		checkOutAssociationMap.put( 4, txCheckout_4 );
 		txCheckout_4.setColumns(10);
 		
 		JLabel lbCheckout_5 = new JLabel("Checkout : 05");
 		
 		txCheckout_5 = new JTextField();
+		checkOutAssociationMap.put( 5, txCheckout_5 );
 		txCheckout_5.setColumns(10);
 		
 		JLabel lbCheckout_6 = new JLabel("Checkout : 06");
 		
 		txCheckout_6 = new JTextField();
+		checkOutAssociationMap.put( 6, txCheckout_6 );
 		txCheckout_6.setColumns(10);
 		
 		JLabel lbCheckout_7 = new JLabel("Checkout : 07");
 		
 		txCheckout_7 = new JTextField();
+		checkOutAssociationMap.put( 7, txCheckout_7 );
 		txCheckout_7.setColumns(10);
 		
 		JLabel lbCheclout_8 = new JLabel("Checkout : 08");
 		
 		txCheckout_8 = new JTextField();
+		checkOutAssociationMap.put( 8, txCheckout_8 );
 		txCheckout_8.setColumns(10);
 		GroupLayout gl_checkOuts = new GroupLayout(checkOuts);
 		gl_checkOuts.setHorizontalGroup(
@@ -281,4 +292,44 @@ public class SimulatorUI extends JFrame {
 		btnStart.setBounds(22, 333, 89, 23);
 		contentPane.add(btnStart);
 	}
+	
+	public JTextField getTxCheckout_1()
+	{
+		return txCheckout_1;
+	}
+	public JTextField getTxCheckout_2()
+	{
+		return txCheckout_2;
+	}
+	public JTextField getTxCheckout_3()
+	{
+		return txCheckout_3;
+	}
+	public JTextField getTxCheckout_4()
+	{
+		return txCheckout_4;
+	}
+	public JTextField getTxCheckout_5()
+	{
+		return txCheckout_5;
+	}
+	public JTextField getTxCheckout_6()
+	{
+		return txCheckout_6;
+	}
+	public JTextField getTxCheckout_7()
+	{
+		return txCheckout_7;
+	}
+	public JTextField getTxCheckout_8()
+	{
+		return txCheckout_8;
+	}
+
+	public Map<Integer, JTextField> getCheckOutAssociationMap()
+	{
+		return checkOutAssociationMap;
+	}
+	
+	
 }

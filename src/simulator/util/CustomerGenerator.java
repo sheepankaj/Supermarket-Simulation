@@ -7,6 +7,7 @@ public class CustomerGenerator {
 	RandomNumberGenerator generator;
 	static int customerCounter;
 	
+	
 	public CustomerGenerator()
 	{
 		generator = new RandomNumberGenerator();
@@ -23,9 +24,11 @@ public class CustomerGenerator {
 					{
 						Customer customer = new Customer();
 						Demo.getDemoInstance().getCustomersInSystem().add(customer);
-						new Thread(customer,"Customer ID : "+(++customerCounter)).start();
+						int customerId = ++customerCounter;
+						customer.setCustomerId( customerId );
+						new Thread(customer,"Customer ID : "+(customerId)).start();
 					}
-					System.out.println("Created Customers : "+customerCounter);					
+					System.out.println("###Created Customers### : "+customerCounter);					
 					try 
 					{
 						Thread.sleep(timeInterval*60*1000);
@@ -41,8 +44,9 @@ public class CustomerGenerator {
 		};
 		Thread thread = new Thread(runnable);
 		thread.start();
-	}	
+	}
+
+		
+	
 	
 }
-
-

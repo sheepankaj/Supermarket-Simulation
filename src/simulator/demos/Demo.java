@@ -17,7 +17,7 @@ public class Demo
 	private List<Customer> customersInSystem;	
 
 	public static void main(String[] args) 
-	{
+	{		
 		SimulatorUI ui = new SimulatorUI();
 		ui.setVisible(true);
 		Demo demo = new Demo();
@@ -43,10 +43,12 @@ public class Demo
 	
 	private void startCheckoutQueues()
 	{
-		for(int i = 0; i < 9; i++)
+		for(int i = 0; i < 8; i++)
 		{
 			CheckoutQueue queue = new CheckoutQueue();
-			Thread t = new Thread(queue,"Checkout Queue : "+i);
+			queue.setCheckOutName( "Checkout Queue : "+(i+1) );
+			queue.setQueueId( i+1 );
+			Thread t = new Thread(queue,queue.getCheckOutName());
 			checkOutQueues.add(queue);
 			checkOutQueueThreads.add(t);
 			t.start();
