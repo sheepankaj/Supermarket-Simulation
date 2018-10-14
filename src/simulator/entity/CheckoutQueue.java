@@ -4,6 +4,9 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import javax.swing.JTextField;
+
+import simulator.demos.Demo;
 import simulator.util.RandomNumberGenerator;
 
 /**
@@ -15,6 +18,8 @@ public class CheckoutQueue implements Runnable
 	private RandomNumberGenerator generator;
 	private String checkOutName;
 	private int queueId;	
+	private double totalCustomerWaitingTime;
+	private int totalCustomersProcessed;
 
 	public CheckoutQueue()
 	{
@@ -46,6 +51,10 @@ public class CheckoutQueue implements Runnable
 				else
 				{
 					customer = customers.poll();
+					totalCustomersProcessed++;
+					JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( this.getQueueId() );
+					//int currentValue = Integer.valueOf(textField.getText());
+					textField.setText( Integer.toString( customers.size() ));
 					customers.notifyAll();
 				}
 
@@ -55,10 +64,12 @@ public class CheckoutQueue implements Runnable
 				int trolleyProductCount = customer.getTrolley().getProductCount();
 				for ( int i = 0; i < trolleyProductCount; i++ )
 				{
+					System.out.println( "Customer is being processed.." );
 					double tempTime = generator.getRandomDecimalNumberInRange( 0.5, 6 );
 					long scanTime = ( long ) tempTime * 1000;
 					DecimalFormat df = new DecimalFormat( "#.##" );
 					//System.out.println( df.format( tempTime ) );
+					totalCustomerWaitingTime = totalCustomerWaitingTime + scanTime;
 					try
 					{
 						Thread.sleep( scanTime );

@@ -24,7 +24,7 @@ public class Demo
 		Demo demo = getDemoInstance();
 		demo.setUi( ui );
 		demo.startCheckoutQueues();
-		demo.customerGenerator.generateCustomersPerGivenTime(1);
+		demo.customerGenerator.generateCustomersPerGivenTime(1,200);
 	}
 	
 	private Demo()

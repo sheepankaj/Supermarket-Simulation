@@ -13,7 +13,6 @@ import simulator.util.RandomNumberGenerator;
  */
 public class Customer implements Runnable
 {
-
 	private Trolley trolley;
 	private RandomNumberGenerator generator = new RandomNumberGenerator();
 	private long queueJoinedTime;
@@ -27,48 +26,52 @@ public class Customer implements Runnable
 		List<CheckoutQueue> checkoutQueues = Demo.checkOutQueues;
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
-			for ( CheckoutQueue queue : checkoutQueues )
+			boolean foundAQueue = false;
+			while(!foundAQueue)
 			{
-				Queue<Customer> customers = queue.getCustomers();
-				synchronized ( customers )
+				for ( CheckoutQueue queue : checkoutQueues )
 				{
-					if ( customers.size() < 6 )
+					Queue<Customer> customers = queue.getCustomers();
+					if(Thread.holdsLock(customers))
 					{
-						customers.add( this );
-						JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
-						int currentValue = 0;
-						if(!textField.getText().equals( "" ))
+						continue; 
+			        }
+					synchronized ( customers )
+					{
+						if ( customers.size() < 6 )
 						{
-							currentValue = Integer.valueOf(textField.getText());
+							customers.add( this );
+							JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
+							//int currentValue = Integer.valueOf(textField.getText());
+							textField.setText( Integer.toString( customers.size() ));
+							System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
+							queueJoinedTime = System.currentTimeMillis();
+							customers.notifyAll();
+							foundAQueue = true;
+							break;//no need of looping after adding itself to a queue
 						}
-						textField.setText( Integer.toString( currentValue+1 ));
-						System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
-						queueJoinedTime = System.currentTimeMillis();
-						customers.notifyAll();
-						break;
-					}
-					else
-					{
-						// need to release Checkout Queue's customer list gg
-						// checking EE ide
-						customers.notifyAll();
+						else
+						{
+							// need to release Checkout Queue's customer list
+							customers.notifyAll();
+						}
 					}
 				}
 			}
 		}
-//		else 
-//		{
-//			try 
-//			{
-//				System.out.println("Going to Wait : " + Thread.currentThread().getName());
-//				wait();
-//			} 
-//			catch (InterruptedException e) 
-//			{
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
+		else 
+		{
+			try 
+			{
+				System.out.println("Going to Wait : " + Thread.currentThread().getName());
+				wait();
+			} 
+			catch (InterruptedException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 
