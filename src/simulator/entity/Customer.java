@@ -3,6 +3,8 @@ package simulator.entity;
 import java.util.List;
 import java.util.Queue;
 
+import javax.swing.JTextField;
+
 import simulator.demos.Demo;
 import simulator.util.RandomNumberGenerator;
 
@@ -33,8 +35,14 @@ public class Customer implements Runnable
 					if ( customers.size() < 6 )
 					{
 						customers.add( this );
+						JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
+						int currentValue = 0;
+						if(!textField.getText().equals( "" ))
+						{
+							currentValue = Integer.valueOf(textField.getText());
+						}
+						textField.setText( Integer.toString( currentValue+1 ));
 						System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
-						// Demo.getDemoInstance().
 						queueJoinedTime = System.currentTimeMillis();
 						customers.notifyAll();
 						break;

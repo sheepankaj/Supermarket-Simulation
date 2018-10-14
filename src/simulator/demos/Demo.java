@@ -14,13 +14,15 @@ public class Demo
 	private List<Thread> checkOutQueueThreads;
 	private static Demo demo;
 	private CustomerGenerator customerGenerator;
-	private List<Customer> customersInSystem;	
+	private List<Customer> customersInSystem;
+	private SimulatorUI ui;
 
 	public static void main(String[] args) 
 	{		
 		SimulatorUI ui = new SimulatorUI();
-		ui.setVisible(true);
-		Demo demo = new Demo();
+		ui.setVisible(true);		
+		Demo demo = getDemoInstance();
+		demo.setUi( ui );
 		demo.startCheckoutQueues();
 		demo.customerGenerator.generateCustomersPerGivenTime(1);
 	}
@@ -63,4 +65,13 @@ public class Demo
 		this.customersInSystem = customersInSystem;
 	}
 
+	public SimulatorUI getUi()
+	{
+		return ui;
+	}
+
+	public void setUi( SimulatorUI ui )
+	{
+		this.ui = ui;
+	}
 }
