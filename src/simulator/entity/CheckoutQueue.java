@@ -69,7 +69,7 @@ public class CheckoutQueue implements Runnable
 					long scanTime = ( long ) tempTime * 1000;
 					DecimalFormat df = new DecimalFormat( "#.##" );
 					//System.out.println( df.format( tempTime ) );
-					totalCustomerWaitingTime = totalCustomerWaitingTime + scanTime;
+					totalCustomerWaitingTime += scanTime;
 					try
 					{
 						Thread.sleep( scanTime );
@@ -80,6 +80,7 @@ public class CheckoutQueue implements Runnable
 						e.printStackTrace();
 					}
 				}
+				totalCustomerWaitingTime += customer.getWaitingTimeInQueue( System.currentTimeMillis() );
 				System.out.println( "Customer ID : "+customer.getCustomerId()+" total waiting time in queue : " + customer.getWaitingTimeInQueue( System.currentTimeMillis() )+" ## Product count : "+customer.getTrolley().getProductCount() );
 			}
 		}
