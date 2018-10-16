@@ -24,12 +24,12 @@ public class Demo
 		Demo demo = getDemoInstance();
 		demo.setUi( ui );
 		demo.startCheckoutQueues();
-		demo.customerGenerator.generateCustomersPerGivenTime(1,200);
+		demo.startCustomerGenerator();		
 	}
 	
 	private Demo()
 	{
-		customerGenerator = new CustomerGenerator();
+		customerGenerator = new CustomerGenerator(200,1);
 		checkOutQueueThreads = new ArrayList<>();
 		customersInSystem = new ArrayList<>();
 	}
@@ -55,6 +55,11 @@ public class Demo
 			checkOutQueueThreads.add(t);
 			t.start();
 		}
+	}
+	
+	private void startCustomerGenerator()
+	{
+		new Thread(customerGenerator,"Customer Generator").start();
 	}
 	
 	public List<Customer> getCustomersInSystem() {
