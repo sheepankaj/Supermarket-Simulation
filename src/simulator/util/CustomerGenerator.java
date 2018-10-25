@@ -21,8 +21,8 @@ public class CustomerGenerator implements Runnable{
 	{		
 		while ( customerCounter < maximumNumberOfCustomers ) 
 		{
-			//int randomNumOfCustomers = generator.getRandomNumberInRange(0, 60);
-			int randomNumOfCustomers = 13;
+			int randomNumOfCustomers = generator.getRandomNumberInRange(0, 60);
+			//int randomNumOfCustomers = 13;
 			for(int i = 0; i < randomNumOfCustomers;i++)
 			{
 				Customer customer = new Customer();

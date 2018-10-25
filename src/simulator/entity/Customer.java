@@ -2,6 +2,7 @@ package simulator.entity;
 
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
 
 import javax.swing.JTextField;
 
@@ -27,52 +28,40 @@ public class Customer implements Runnable
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
 			boolean foundAQueue = false;
-			while(!foundAQueue)
+			while ( !foundAQueue )
 			{
 				for ( CheckoutQueue queue : checkoutQueues )
 				{
 					Queue<Customer> customers = queue.getCustomers();
-					if(!Thread.holdsLock(customers) && (trolley.getProductCount() > queue.getMaximumProductCount()))
+					Lock sharedLock = queue.getSharedLock();
+					if ( sharedLock.tryLock() )
 					{
-						continue; 
-			        }
-					synchronized ( customers )
+						try
+						{
+							if ( customers.size() < 6 )
+							{
+								customers.add( this );
+								JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
+								textField.setText( Integer.toString( customers.size() ) );
+								System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
+								queueJoinedTime = System.currentTimeMillis();
+								foundAQueue = true;
+								queue.getCondition().signalAll();								
+								break;
+							}
+						}
+						finally
+						{
+							sharedLock.unlock();
+						}
+					}
+					else
 					{
-						if ( customers.size() < 6 )
-						{
-							customers.add( this );
-							JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
-							//int currentValue = Integer.valueOf(textField.getText());
-							textField.setText( Integer.toString( customers.size() ));
-							System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
-							queueJoinedTime = System.currentTimeMillis();
-							customers.notifyAll();
-							foundAQueue = true;
-							break;//no need of looping after adding itself to a queue
-						}
-						else
-						{
-							// need to release Checkout Queue's customer list
-							customers.notifyAll();
-						}
+						continue;
 					}
 				}
 			}
 		}
-		else 
-		{
-			try 
-			{
-				System.out.println("Going to Wait : " + Thread.currentThread().getName());
-				wait();
-			} 
-			catch (InterruptedException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
 	}
 
 	public long getQueueJoinedTime()

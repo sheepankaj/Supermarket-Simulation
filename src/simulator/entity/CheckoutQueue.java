@@ -3,7 +3,9 @@ package simulator.entity;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.swing.JTextField;
 
@@ -18,25 +20,25 @@ public class CheckoutQueue implements Runnable
 	private Queue<Customer> customers;
 	private RandomNumberGenerator generator;
 	private String checkOutName;
-	private int queueId;	
+	private int queueId;
 	private double totalCustomerWaitingTime;
 	private int totalCustomersProcessed;
 	private int maximumProductCount = 200;
-	private Lock sharedLock;
+	private Lock sharedLock = new ReentrantLock();
+	private Condition condition;
 
 	public CheckoutQueue()
 	{
 		customers = new LinkedList<>();
 		generator = new RandomNumberGenerator();
 	}
-	
-	public CheckoutQueue(int maximumProductCount)
+
+	public CheckoutQueue( int maximumProductCount )
 	{
 		this();
 		this.maximumProductCount = maximumProductCount;
 	}
-	
-	
+
 	@Override
 	public void run()
 	{
@@ -45,29 +47,36 @@ public class CheckoutQueue implements Runnable
 		{
 			Customer customer = null;
 			// System.out.println("Current Customers in Checkout Queue : "+Thread.currentThread().getName()+" ##" + customers.size());
-			synchronized ( customers )
+            boolean isLockAcquired = sharedLock.tryLock();
+			if ( isLockAcquired )
 			{
-				if ( customers.size() == 0 )
+				try
 				{
-					try
+					if ( customers.size() > 0 )
 					{
-						customers.wait();
+						customer = customers.poll();
+						totalCustomersProcessed++;
+						JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( this.getQueueId() );
+						textField.setText( Integer.toString( customers.size() ) );
 					}
-					catch ( InterruptedException e )
+					else
 					{
-						e.printStackTrace();
+						try
+						{
+							setCondition( sharedLock.newCondition() );
+							getCondition().await();
+						}
+						catch ( InterruptedException e )
+						{
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					}
 				}
-				else
+				finally
 				{
-					customer = customers.poll();
-					totalCustomersProcessed++;
-					JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( this.getQueueId() );
-					//int currentValue = Integer.valueOf(textField.getText());
-					textField.setText( Integer.toString( customers.size() ));
-					customers.notifyAll();
+					sharedLock.unlock();
 				}
-
 			}
 			if ( customer != null )
 			{
@@ -78,7 +87,7 @@ public class CheckoutQueue implements Runnable
 					double tempTime = generator.getRandomDecimalNumberInRange( 0.5, 6 );
 					long scanTime = ( long ) tempTime * 1000;
 					DecimalFormat df = new DecimalFormat( "#.##" );
-					//System.out.println( df.format( tempTime ) );
+					// System.out.println( df.format( tempTime ) );
 					totalCustomerWaitingTime += scanTime;
 					try
 					{
@@ -91,12 +100,20 @@ public class CheckoutQueue implements Runnable
 					}
 				}
 				totalCustomerWaitingTime += customer.getWaitingTimeInQueue( System.currentTimeMillis() );
-				System.out.println( "Customer ID : "+customer.getCustomerId()+" total waiting time in queue : " + customer.getWaitingTimeInQueue( System.currentTimeMillis() )+" ## Product count : "+customer.getTrolley().getProductCount() );
+				System.out.println( "Customer ID : " + customer.getCustomerId() + " total waiting time in queue : " + customer.getWaitingTimeInQueue( System.currentTimeMillis() ) + " ## Product count : " + customer.getTrolley().getProductCount() );
 			}
 		}
+	}	
+
+	public Condition getCondition()
+	{
+		return condition;
 	}
-	
-	
+
+	public void setCondition( Condition condition )
+	{
+		this.condition = condition;
+	}
 
 	public Lock getSharedLock()
 	{
@@ -107,22 +124,22 @@ public class CheckoutQueue implements Runnable
 	{
 		return checkOutName;
 	}
-	
+
 	public void setCheckOutName( String checkOutName )
 	{
 		this.checkOutName = checkOutName;
 	}
-	
+
 	public Queue<Customer> getCustomers()
 	{
 		return customers;
 	}
-	
+
 	public void setCustomers( Queue<Customer> customers )
 	{
 		this.customers = customers;
 	}
-	
+
 	public int getQueueId()
 	{
 		return queueId;
@@ -136,5 +153,5 @@ public class CheckoutQueue implements Runnable
 	public int getMaximumProductCount()
 	{
 		return maximumProductCount;
-	}	
+	}
 }
