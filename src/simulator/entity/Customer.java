@@ -22,7 +22,7 @@ public class Customer implements Runnable
 	@Override
 	public void run()
 	{
-		trolley = new Trolley( generator.getRandomNumberInRange( 0, 200 ) );
+		trolley = new Trolley( generator.getRandomNumberInRange( 0, 4 ) );
 		List<CheckoutQueue> checkoutQueues = Demo.checkOutQueues;
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
@@ -32,7 +32,7 @@ public class Customer implements Runnable
 				for ( CheckoutQueue queue : checkoutQueues )
 				{
 					Queue<Customer> customers = queue.getCustomers();
-					if(Thread.holdsLock(customers))
+					if(!Thread.holdsLock(customers) && (trolley.getProductCount() > queue.getMaximumProductCount()))
 					{
 						continue; 
 			        }

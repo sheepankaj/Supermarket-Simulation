@@ -3,6 +3,7 @@ package simulator.entity;
 import java.text.DecimalFormat;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.concurrent.locks.Lock;
 
 import javax.swing.JTextField;
 
@@ -20,12 +21,21 @@ public class CheckoutQueue implements Runnable
 	private int queueId;	
 	private double totalCustomerWaitingTime;
 	private int totalCustomersProcessed;
+	private int maximumProductCount = 200;
+	private Lock sharedLock;
 
 	public CheckoutQueue()
 	{
 		customers = new LinkedList<>();
 		generator = new RandomNumberGenerator();
 	}
+	
+	public CheckoutQueue(int maximumProductCount)
+	{
+		this();
+		this.maximumProductCount = maximumProductCount;
+	}
+	
 	
 	@Override
 	public void run()
@@ -85,6 +95,13 @@ public class CheckoutQueue implements Runnable
 			}
 		}
 	}
+	
+	
+
+	public Lock getSharedLock()
+	{
+		return sharedLock;
+	}
 
 	public String getCheckOutName()
 	{
@@ -115,4 +132,9 @@ public class CheckoutQueue implements Runnable
 	{
 		this.queueId = queueId;
 	}
+
+	public int getMaximumProductCount()
+	{
+		return maximumProductCount;
+	}	
 }

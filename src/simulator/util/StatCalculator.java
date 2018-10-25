@@ -16,7 +16,7 @@ public class StatCalculator implements Runnable
 	{
 		while(true)
 		{
-			
+			//System.out.println( "Stat calc runnunt" );
 		}
 	}
 

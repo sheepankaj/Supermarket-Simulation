@@ -28,7 +28,7 @@ public class SimulatorUI extends JFrame {
 	private JTextField txTotUtiForCheckout;
 	private JTextField txTotProductsProcessed;
 	private JTextField txAvgCustomerWaitTime;
-	private JTextField textField;
+	private JTextField txAvgCheckoutUtilization;
 	private JTextField txAvgProductsPerTrolley;
 	private JTextField txNoOfLostCustomers;
 	private JTextField txCheckout_1;
@@ -222,8 +222,8 @@ public class SimulatorUI extends JFrame {
 		
 		JLabel lbCheckoutUtilization = new JLabel("Avg Checkout Utilization");
 		
-		textField = new JTextField();
-		textField.setColumns(10);
+		txAvgCheckoutUtilization = new JTextField();
+		txAvgCheckoutUtilization.setColumns(10);
 		
 		JLabel lbAvgProductsPerTrolley = new JLabel("Avg Products per trolley");
 		
@@ -255,7 +255,7 @@ public class SimulatorUI extends JFrame {
 						.addComponent(txTotProductsProcessed, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txTotUtiForCheckout, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txTotWaitCustomer, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txAvgCheckoutUtilization, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addContainerGap(59, Short.MAX_VALUE))
 		);
 		gl_parameters.setVerticalGroup(
@@ -278,7 +278,7 @@ public class SimulatorUI extends JFrame {
 						.addComponent(txAvgCustomerWaitTime, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.TRAILING)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txAvgCheckoutUtilization, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lbCheckoutUtilization))
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(gl_parameters.createParallelGroup(Alignment.LEADING)
@@ -353,6 +353,43 @@ public class SimulatorUI extends JFrame {
 	{
 		return txTotalCustomersInMarket;
 	}
+
+	public JTextField getTxTotWaitCustomer()
+	{
+		return txTotWaitCustomer;
+	}
+
+	public JTextField getTxTotUtiForCheckout()
+	{
+		return txTotUtiForCheckout;
+	}
+
+	public JTextField getTxTotProductsProcessed()
+	{
+		return txTotProductsProcessed;
+	}
+
+	public JTextField getTxAvgCustomerWaitTime()
+	{
+		return txAvgCustomerWaitTime;
+	}
+
+	public JTextField getTxAvgCheckoutUtilization()
+	{
+		return txAvgCheckoutUtilization;
+	}
+
+	public JTextField getTxAvgProductsPerTrolley()
+	{
+		return txAvgProductsPerTrolley;
+	}
+
+	public JTextField getTxNoOfLostCustomers()
+	{
+		return txNoOfLostCustomers;
+	}
+	
+	
 	
 	
 }
