@@ -17,6 +17,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
+import simulator.demos.Demo;
+
 public class SimulatorUI extends JFrame {
 
 	/**
@@ -293,15 +295,20 @@ public class SimulatorUI extends JFrame {
 		parameters.setLayout(gl_parameters);
 		
 		JButton btnStart = new JButton("Start");
+		SimulatorUI ui = this;
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				System.out.println("works");
+				Demo demo = Demo.getDemoInstance();
+				demo.setUi( ui );
+				demo.startCheckoutQueues();
+				demo.startCustomerGenerator();	
+				demo.startStatCalculator(ui);
 			}
 		});
 		btnStart.setBounds(22, 333, 89, 23);
 		contentPane.add(btnStart);
 		
-		JLabel lblNewLabel = new JLabel("Customers in Supermarket");
+		JLabel lblNewLabel = new JLabel("Customers arrived");
 		lblNewLabel.setBounds(32, 247, 191, 14);
 		contentPane.add(lblNewLabel);
 		

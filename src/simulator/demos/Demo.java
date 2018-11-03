@@ -23,12 +23,8 @@ public class Demo
 	public static void main(String[] args) 
 	{		
 		SimulatorUI ui = new SimulatorUI();
-		ui.setVisible(true);		
-		Demo demo = getDemoInstance();
-		demo.setUi( ui );
-		demo.startCheckoutQueues();
-		demo.startCustomerGenerator();	
-		demo.startStatCalculator();
+		ui.setVisible(true);	
+		
 	}
 	
 	private Demo()
@@ -48,7 +44,7 @@ public class Demo
 		return demo;
 	}
 	
-	private void startCheckoutQueues()
+	public void startCheckoutQueues()
 	{
 		for(int i = 0; i < 8; i++)
 		{
@@ -70,13 +66,14 @@ public class Demo
 		}
 	}
 	
-	private void startCustomerGenerator()
+	public void startCustomerGenerator()
 	{
 		new Thread(customerGenerator,"Customer Generator").start();
 	}
 	
-	private void startStatCalculator()
+	public void startStatCalculator(SimulatorUI ui)
 	{
+		statCalculator.setUi( ui );
 		new Thread(statCalculator,"Stat Calculator").start();
 	}
 	

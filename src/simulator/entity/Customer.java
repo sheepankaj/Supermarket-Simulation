@@ -25,12 +25,13 @@ public class Customer implements Runnable
 	@Override
 	public void run()
 	{
-		trolley = new Trolley( generator.getRandomNumberInRange( 0, 4 ) );
+		trolley = new Trolley( generator.getRandomNumberInRange( 0, 200 ) );
 		List<CheckoutQueue> checkoutQueues = Demo.checkOutQueues;
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
 			boolean foundAQueue = false;
 			int loopCounter = 0;
+			outerWhile:
 			while ( !foundAQueue )
 			{
 				loopCounter++;
@@ -53,7 +54,7 @@ public class Customer implements Runnable
 								if(customers.size() == 1)
 								{
 									queue.getCondition().signal();
-								}																
+								}	
 								break;
 							}
 							
@@ -72,6 +73,7 @@ public class Customer implements Runnable
 				{
 					// Customer tried adding himself to a Checkout Queue for LOOP_TRYING_THRESHOLD. So here it will leave the market
 					lostCustomers++;
+					break;
 				}
 			}
 		}

@@ -1,5 +1,6 @@
 package simulator.util;
 
+import simulator.entity.Customer;
 import simulator.ui.SimulatorUI;
 
 public class StatCalculator implements Runnable
@@ -9,6 +10,16 @@ public class StatCalculator implements Runnable
 	public StatCalculator(SimulatorUI ui)
 	{
 		this.ui = ui;
+	}	
+
+	public SimulatorUI getUi()
+	{
+		return ui;
+	}
+
+	public void setUi( SimulatorUI ui )
+	{
+		this.ui = ui;
 	}
 
 	@Override
@@ -16,7 +27,16 @@ public class StatCalculator implements Runnable
 	{
 		while(true)
 		{
-			//System.out.println( "Stat calc runnunt" );
+			try 
+			{
+				ui.getTxNoOfLostCustomers().setText( Integer.toString(Customer.lostCustomers));
+				// updating UI having 5 sec time gaps
+				Thread.sleep(5000);
+			} 
+			catch (InterruptedException e) {
+				e.printStackTrace();
+
+			}
 		}
 	}
 
