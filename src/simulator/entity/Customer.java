@@ -19,6 +19,8 @@ public class Customer implements Runnable
 	private long queueJoinedTime;
 	private long trolleyCleardTime;
 	private int customerId;
+	public static volatile int lostCustomers;
+	public static int LOOP_TRYING_THRESHOLD = 10;
 
 	@Override
 	public void run()
@@ -28,13 +30,15 @@ public class Customer implements Runnable
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
 			boolean foundAQueue = false;
+			int loopCounter = 0;
 			while ( !foundAQueue )
 			{
+				loopCounter++;
 				for ( CheckoutQueue queue : checkoutQueues )
 				{
 					Queue<Customer> customers = queue.getCustomers();
 					Lock sharedLock = queue.getSharedLock();
-					if ( sharedLock.tryLock() )
+					if ( sharedLock.tryLock() && queue.getMaximumProductCount() > trolley.getProductCount())
 					{
 						try
 						{
@@ -46,9 +50,13 @@ public class Customer implements Runnable
 								System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
 								queueJoinedTime = System.currentTimeMillis();
 								foundAQueue = true;
-								queue.getCondition().signalAll();								
+								if(customers.size() == 1)
+								{
+									queue.getCondition().signal();
+								}																
 								break;
 							}
+							
 						}
 						finally
 						{
@@ -59,6 +67,11 @@ public class Customer implements Runnable
 					{
 						continue;
 					}
+				}
+				if(loopCounter == LOOP_TRYING_THRESHOLD)
+				{
+					// Customer tried adding himself to a Checkout Queue for LOOP_TRYING_THRESHOLD. So here it will leave the market
+					lostCustomers++;
 				}
 			}
 		}

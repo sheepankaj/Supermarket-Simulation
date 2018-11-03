@@ -83,7 +83,7 @@ public class CheckoutQueue implements Runnable
 				int trolleyProductCount = customer.getTrolley().getProductCount();
 				for ( int i = 0; i < trolleyProductCount; i++ )
 				{
-					System.out.println( "Customer is being processed.." );
+					//System.out.println( "Customer is being processed.." );
 					double tempTime = generator.getRandomDecimalNumberInRange( 0.5, 6 );
 					long scanTime = ( long ) tempTime * 1000;
 					DecimalFormat df = new DecimalFormat( "#.##" );
