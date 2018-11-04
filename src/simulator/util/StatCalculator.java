@@ -1,11 +1,17 @@
 package simulator.util;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
+import simulator.demos.Demo;
+import simulator.entity.CheckoutQueue;
 import simulator.entity.Customer;
 import simulator.ui.SimulatorUI;
 
 public class StatCalculator implements Runnable
 {
 	SimulatorUI ui ;
+	
 	
 	public StatCalculator(SimulatorUI ui)
 	{
@@ -24,18 +30,32 @@ public class StatCalculator implements Runnable
 
 	@Override
 	public void run()
-	{
+	{		
 		while(true)
 		{
+			int currentlyProcessingCustomers = 0;
+			int totalProductsProcessed = 0;
+			double totalWaitingTimeForCustomer = 0;			
+			DecimalFormat df = new DecimalFormat("#.##");
+			df.setRoundingMode(RoundingMode.CEILING);
 			try 
 			{
 				ui.getTxNoOfLostCustomers().setText( Integer.toString(Customer.lostCustomers));
+				for(CheckoutQueue queue : Demo.checkOutQueues)
+				{
+					currentlyProcessingCustomers += queue.getTotalCustomersProcessed();
+					totalWaitingTimeForCustomer += queue.getTotalCustomerWaitingTime();
+					totalProductsProcessed += queue.getTotalCustomersProcessed();
+				}
+				ui.getTxCurrentlyProcessing().setText( Integer.toString( currentlyProcessingCustomers ) );
+				ui.getTxTotProductsProcessed().setText( Integer.toString( totalProductsProcessed ) );
+				ui.getTxTotWaitCustomer().setText(  df.format(totalWaitingTimeForCustomer/1000));
 				// updating UI having 5 sec time gaps
-				Thread.sleep(5000);
+				Thread.sleep(1000);
 			} 
-			catch (InterruptedException e) {
+			catch (InterruptedException e) 
+			{
 				e.printStackTrace();
-
 			}
 		}
 	}

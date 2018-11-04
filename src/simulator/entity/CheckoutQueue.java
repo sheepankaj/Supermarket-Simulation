@@ -23,9 +23,10 @@ public class CheckoutQueue implements Runnable
 	private int queueId;
 	private double totalCustomerWaitingTime;
 	private int totalCustomersProcessed;
+	private int totalProductsProcessed;
 	private int maximumProductCount = 200;
-	private Lock sharedLock = new ReentrantLock();
-	private Condition condition;
+	private Lock sharedLockOnQueue = new ReentrantLock();
+	private Condition conditionOnQueue;
 
 	public CheckoutQueue()
 	{
@@ -47,7 +48,7 @@ public class CheckoutQueue implements Runnable
 		{
 			Customer customer = null;
 			// System.out.println("Current Customers in Checkout Queue : "+Thread.currentThread().getName()+" ##" + customers.size());
-            boolean isLockAcquired = sharedLock.tryLock();
+            boolean isLockAcquired = sharedLockOnQueue.tryLock();
 			if ( isLockAcquired )
 			{
 				try
@@ -63,7 +64,7 @@ public class CheckoutQueue implements Runnable
 					{
 						try
 						{
-							setCondition( sharedLock.newCondition() );
+							setCondition( sharedLockOnQueue.newCondition() );
 							getCondition().await();
 						}
 						catch ( InterruptedException e )
@@ -75,12 +76,13 @@ public class CheckoutQueue implements Runnable
 				}
 				finally
 				{
-					sharedLock.unlock();
+					sharedLockOnQueue.unlock();
 				}
 			}
 			if ( customer != null )
 			{
 				int trolleyProductCount = customer.getTrolley().getProductCount();
+				totalProductsProcessed += trolleyProductCount;
 				for ( int i = 0; i < trolleyProductCount; i++ )
 				{
 					//System.out.println( "Customer is being processed.." );
@@ -107,17 +109,17 @@ public class CheckoutQueue implements Runnable
 
 	public Condition getCondition()
 	{
-		return condition;
+		return conditionOnQueue;
 	}
 
 	public void setCondition( Condition condition )
 	{
-		this.condition = condition;
+		this.conditionOnQueue = condition;
 	}
 
 	public Lock getSharedLock()
 	{
-		return sharedLock;
+		return sharedLockOnQueue;
 	}
 
 	public String getCheckOutName()
@@ -153,5 +155,20 @@ public class CheckoutQueue implements Runnable
 	public int getMaximumProductCount()
 	{
 		return maximumProductCount;
+	}
+
+	public int getTotalCustomersProcessed()
+	{
+		return totalCustomersProcessed;
+	}
+
+	public double getTotalCustomerWaitingTime()
+	{
+		return totalCustomerWaitingTime;
+	}
+
+	public int getTotalProductsProcessed()
+	{
+		return totalProductsProcessed;
 	}
 }

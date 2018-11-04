@@ -20,7 +20,7 @@ public class Customer implements Runnable
 	private long trolleyCleardTime;
 	private int customerId;
 	public static volatile int lostCustomers;
-	public static int LOOP_TRYING_THRESHOLD = 10;
+	public static int LOOP_TRYING_THRESHOLD = 5;
 
 	@Override
 	public void run()
@@ -31,8 +31,10 @@ public class Customer implements Runnable
 		{
 			boolean foundAQueue = false;
 			int loopCounter = 0;
-			outerWhile:
-			while ( !foundAQueue )
+			final long NANOSEC_PER_SEC = 1000l*1000*1000;
+			long startTime = System.nanoTime();
+			outerLoop:
+			while((System.nanoTime()-startTime)< LOOP_TRYING_THRESHOLD*NANOSEC_PER_SEC)
 			{
 				loopCounter++;
 				for ( CheckoutQueue queue : checkoutQueues )
@@ -55,7 +57,7 @@ public class Customer implements Runnable
 								{
 									queue.getCondition().signal();
 								}	
-								break;
+								break outerLoop;
 							}
 							
 						}
@@ -69,12 +71,16 @@ public class Customer implements Runnable
 						continue;
 					}
 				}
-				if(loopCounter == LOOP_TRYING_THRESHOLD)
-				{
-					// Customer tried adding himself to a Checkout Queue for LOOP_TRYING_THRESHOLD. So here it will leave the market
-					lostCustomers++;
-					break;
-				}
+//				if(loopCounter == LOOP_TRYING_THRESHOLD)
+//				{
+//					// Customer tried adding himself to a Checkout Queue for LOOP_TRYING_THRESHOLD. So here it will leave the market
+//					lostCustomers++;
+//					//break;
+//				}
+			}
+			if(!foundAQueue)
+			{
+				lostCustomers++;
 			}
 		}
 	}
@@ -123,5 +129,4 @@ public class Customer implements Runnable
 	{
 		this.customerId = customerId;
 	}
-
 }

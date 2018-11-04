@@ -43,6 +43,7 @@ public class SimulatorUI extends JFrame {
 	private JTextField txCheckout_8;
 	private Map<Integer,JTextField> checkOutAssociationMap = new HashMap<>(8);
 	private JTextField txTotalCustomersInMarket;
+	private JTextField txCurrentlyProcessing;
 	/**
 	 * Create the frame.
 	 */
@@ -305,19 +306,58 @@ public class SimulatorUI extends JFrame {
 				demo.startStatCalculator(ui);
 			}
 		});
-		btnStart.setBounds(22, 333, 89, 23);
+		btnStart.setBounds(22, 377, 89, 23);
 		contentPane.add(btnStart);
 		
-		JLabel lblNewLabel = new JLabel("Customers arrived");
-		lblNewLabel.setBounds(32, 247, 191, 14);
-		contentPane.add(lblNewLabel);
+		JPanel panel = new JPanel();
+		panel.setBounds(22, 248, 343, 66);
+		contentPane.add(panel);
+		
+		JLabel lbCustomersArrived = new JLabel("Customers Arrived");
 		
 		txTotalCustomersInMarket = new JTextField();
-		txTotalCustomersInMarket.setBounds(214, 247, 86, 20);
-		contentPane.add(txTotalCustomersInMarket);
 		txTotalCustomersInMarket.setColumns(10);
+		
+		JLabel lbCurrentlyProcessing = new JLabel("Currently Processing");
+		
+		txCurrentlyProcessing = new JTextField();
+		
+		txCurrentlyProcessing.setColumns(10);
+		GroupLayout gl_panel = new GroupLayout(panel);
+		gl_panel.setHorizontalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+						.addComponent(lbCustomersArrived)
+						.addComponent(lbCurrentlyProcessing))
+					.addPreferredGap(ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+						.addComponent(txTotalCustomersInMarket, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txCurrentlyProcessing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(66, Short.MAX_VALUE))
+		);
+		gl_panel.setVerticalGroup(
+			gl_panel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_panel.createSequentialGroup()
+					.addGap(5)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCustomersArrived)
+						.addComponent(txTotalCustomersInMarket, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lbCurrentlyProcessing)
+						.addComponent(txCurrentlyProcessing, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(21, Short.MAX_VALUE))
+		);
+		panel.setLayout(gl_panel);
 	}
 	
+	public JTextField getTxCurrentlyProcessing()
+	{
+		return txCurrentlyProcessing;
+	}
+
 	public JTextField getTxCheckout_1()
 	{
 		return txCheckout_1;
@@ -395,8 +435,4 @@ public class SimulatorUI extends JFrame {
 	{
 		return txNoOfLostCustomers;
 	}
-	
-	
-	
-	
 }
