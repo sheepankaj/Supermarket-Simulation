@@ -28,15 +28,18 @@ public class CheckoutQueue implements Runnable
 	private Lock sharedLockOnQueue = new ReentrantLock();
 	private Condition conditionOnQueue;
 
-	public CheckoutQueue()
+	public CheckoutQueue(int nameID)
 	{
 		customers = new LinkedList<>();
 		generator = new RandomNumberGenerator();
+		checkOutName = "Checkout Queue : "+nameID;
+		queueId = nameID;
+		new Thread(this,checkOutName).start();
 	}
 
-	public CheckoutQueue( int maximumProductCount )
+	public CheckoutQueue( int maximumProductCount,int nameID )
 	{
-		this();
+		this(nameID);
 		this.maximumProductCount = maximumProductCount;
 	}
 
@@ -90,7 +93,7 @@ public class CheckoutQueue implements Runnable
 					long scanTime = ( long ) tempTime * 1000;
 					DecimalFormat df = new DecimalFormat( "#.##" );
 					// System.out.println( df.format( tempTime ) );
-					totalCustomerWaitingTime += scanTime;
+					//totalCustomerWaitingTime += scanTime;
 					try
 					{
 						Thread.sleep( scanTime );

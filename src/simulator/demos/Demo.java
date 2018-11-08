@@ -51,18 +51,18 @@ public class Demo
 			CheckoutQueue queue = null;
 			if(contains( i+1 ))
 			{
-				queue = new CheckoutQueue(5);
+				queue = new CheckoutQueue(5,(i+1));
 			}
 			else
 			{
-				queue = new CheckoutQueue();
+				queue = new CheckoutQueue((i+1));
 			}			 
-			queue.setCheckOutName( "Checkout Queue : "+(i+1) );
-			queue.setQueueId( i+1 );
-			Thread t = new Thread(queue,queue.getCheckOutName());
+			//queue.setCheckOutName( "Checkout Queue : "+(i+1) );
+			//queue.setQueueId( i+1 );
+			//Thread t = new Thread(queue,queue.getCheckOutName());
 			checkOutQueues.add(queue);
-			checkOutQueueThreads.add(t);
-			t.start();
+			//checkOutQueueThreads.add(t);
+			//t.start();
 		}
 	}
 	
