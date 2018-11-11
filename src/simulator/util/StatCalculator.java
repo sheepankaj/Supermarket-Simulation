@@ -43,9 +43,24 @@ public class StatCalculator implements Runnable
 				ui.getTxNoOfLostCustomers().setText( Integer.toString(Customer.lostCustomers));
 				for(CheckoutQueue queue : Demo.checkOutQueues)
 				{
-					currentlyProcessingCustomers += queue.getTotalCustomersProcessed();
-					totalWaitingTimeForCustomer += queue.getTotalCustomerWaitingTime();
-					totalProductsProcessed += queue.getTotalCustomersProcessed();
+					boolean isStatLockAquired = queue.getSharedLockOnStats().tryLock();
+					if(isStatLockAquired)
+					{
+						try
+						{
+							currentlyProcessingCustomers += queue.getTotalCustomersProcessed();
+							totalWaitingTimeForCustomer += queue.getTotalCustomerWaitingTime();
+							totalProductsProcessed += queue.getTotalCustomersProcessed();
+						}
+						finally {
+							queue.getSharedLockOnStats().unlock();
+						}
+					}
+					else
+					{
+						continue;
+					}
+					
 				}
 				ui.getTxCurrentlyProcessing().setText( Integer.toString( currentlyProcessingCustomers ) );
 				ui.getTxTotProductsProcessed().setText( Integer.toString( totalProductsProcessed ) );

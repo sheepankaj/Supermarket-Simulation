@@ -26,6 +26,7 @@ public class CheckoutQueue implements Runnable
 	private int totalProductsProcessed;
 	private int maximumProductCount = 200;
 	private Lock sharedLockOnQueue = new ReentrantLock();
+	private Lock sharedLockOnStats = new ReentrantLock();
 	private Condition conditionOnQueue;
 
 	public CheckoutQueue(int nameID)
@@ -84,8 +85,7 @@ public class CheckoutQueue implements Runnable
 			}
 			if ( customer != null )
 			{
-				int trolleyProductCount = customer.getTrolley().getProductCount();
-				totalProductsProcessed += trolleyProductCount;
+				int trolleyProductCount = customer.getTrolley().getProductCount();				
 				for ( int i = 0; i < trolleyProductCount; i++ )
 				{
 					//System.out.println( "Customer is being processed.." );
@@ -104,7 +104,19 @@ public class CheckoutQueue implements Runnable
 						e.printStackTrace();
 					}
 				}
-				totalCustomerWaitingTime += customer.getWaitingTimeInQueue( System.currentTimeMillis() );
+				boolean isStatLockAcquired = sharedLockOnStats.tryLock();
+				if(isStatLockAcquired)
+				{
+					try
+					{
+						totalProductsProcessed += trolleyProductCount;
+						totalCustomerWaitingTime += customer.getWaitingTimeInQueue( System.currentTimeMillis() );
+					}
+					finally
+					{
+						sharedLockOnStats.unlock();
+					}
+				}				
 				System.out.println( "Customer ID : " + customer.getCustomerId() + " total waiting time in queue : " + customer.getWaitingTimeInQueue( System.currentTimeMillis() ) + " ## Product count : " + customer.getTrolley().getProductCount() );
 			}
 		}
@@ -174,4 +186,11 @@ public class CheckoutQueue implements Runnable
 	{
 		return totalProductsProcessed;
 	}
+
+	public Lock getSharedLockOnStats()
+	{
+		return sharedLockOnStats;
+	}
+	
+	
 }
