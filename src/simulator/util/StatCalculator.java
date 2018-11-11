@@ -50,7 +50,7 @@ public class StatCalculator implements Runnable
 						{
 							currentlyProcessingCustomers += queue.getTotalCustomersProcessed();
 							totalWaitingTimeForCustomer += queue.getTotalCustomerWaitingTime();
-							totalProductsProcessed += queue.getTotalCustomersProcessed();
+							totalProductsProcessed += queue.getTotalProductsProcessed();
 						}
 						finally {
 							queue.getSharedLockOnStats().unlock();
@@ -64,7 +64,13 @@ public class StatCalculator implements Runnable
 				}
 				ui.getTxCurrentlyProcessing().setText( Integer.toString( currentlyProcessingCustomers ) );
 				ui.getTxTotProductsProcessed().setText( Integer.toString( totalProductsProcessed ) );
-				ui.getTxTotWaitCustomer().setText(  df.format(totalWaitingTimeForCustomer/1000));
+				ui.getTxTotWaitCustomer().setText(  df.format(totalWaitingTimeForCustomer/1000));				
+				if(currentlyProcessingCustomers > 0)
+				{
+					ui.getTxAvgCustomerWaitTime().setText( df.format(totalWaitingTimeForCustomer/(1000* currentlyProcessingCustomers)));
+					ui.getTxAvgProductsPerTrolley().setText(Integer.toString( totalProductsProcessed/currentlyProcessingCustomers));
+				}
+				
 				// updating UI having 5 sec time gaps
 				Thread.sleep(1000);
 			} 

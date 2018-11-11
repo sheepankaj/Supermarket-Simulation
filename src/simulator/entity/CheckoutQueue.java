@@ -13,7 +13,8 @@ import simulator.demos.Demo;
 import simulator.util.RandomNumberGenerator;
 
 /**
- * @author Shamitha This class acts as the real world Checkout of a Supermarket
+ * @author Shamitha 
+ * This class acts as the real world Checkout of a Supermarket
  */
 public class CheckoutQueue implements Runnable
 {
@@ -190,7 +191,5 @@ public class CheckoutQueue implements Runnable
 	public Lock getSharedLockOnStats()
 	{
 		return sharedLockOnStats;
-	}
-	
-	
+	}	
 }
