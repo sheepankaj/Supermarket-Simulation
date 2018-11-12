@@ -20,49 +20,56 @@ public class Customer implements Runnable
 	private long trolleyCleardTime;
 	private int customerId;
 	public static volatile int lostCustomers;
-	public static int LOOP_TRYING_THRESHOLD = 5;
-	
-	public Customer(int customerID)
+	public static int LOOP_TRYING_THRESHOLD = 20;
+
+	/**
+	 * This constructor creates the customer thread having a unique name that helps in debug situations.
+	 * @param customerID 
+	 */
+	public Customer( int customerID )
 	{
-		new Thread(this,"Customer ID : "+(customerID)).start();
+		new Thread( this, "Customer ID : " + ( customerID ) ).start();
 	}
 
 	@Override
 	public void run()
 	{
+		// get the trolley created with the random number of products
 		trolley = new Trolley( generator.getRandomNumberInRange( 0, 200 ) );
 		List<CheckoutQueue> checkoutQueues = Demo.checkOutQueues;
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
 			boolean foundAQueue = false;
-			final long NANOSEC_PER_SEC = 1000l*1000*1000;
+			final long NANOSEC_PER_SEC = 1000l * 1000 * 1000;
 			long startTime = System.nanoTime();
-			outerLoop:
-			while((System.nanoTime()-startTime)< LOOP_TRYING_THRESHOLD*NANOSEC_PER_SEC)
+			// Try this loop for the specified threshold 
+			outerLoop: while ( ( System.nanoTime() - startTime ) < LOOP_TRYING_THRESHOLD * NANOSEC_PER_SEC )
 			{
 				for ( CheckoutQueue queue : checkoutQueues )
 				{
 					Queue<Customer> customers = queue.getCustomers();
+					// Try to get the lock, if not continue for the next iteration
 					Lock sharedLock = queue.getSharedLock();
-					if ( sharedLock.tryLock() && queue.getMaximumProductCount() > trolley.getProductCount())
+					if ( sharedLock.tryLock() && queue.getMaximumProductCount() > trolley.getProductCount() )
 					{
 						try
 						{
 							if ( customers.size() < 6 )
 							{
-								customers.add( this  );
+								customers.add( this );
 								JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
 								textField.setText( Integer.toString( customers.size() ) );
 								System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
+								// stamp the time when the customer joins the queue
 								queueJoinedTime = System.currentTimeMillis();
 								foundAQueue = true;
-								if(customers.size() == 1)
+								if ( customers.size() == 1 )
 								{
 									queue.getCondition().signal();
-								}	
+								}
 								break outerLoop;
 							}
-							
+
 						}
 						finally
 						{
@@ -75,8 +82,10 @@ public class Customer implements Runnable
 					}
 				}
 			}
-			if(!foundAQueue)
+			if ( !foundAQueue )
 			{
+				// even after trying for the time limit, 
+				// if it cannot get into a queue, customer is considered as a lost one
 				lostCustomers++;
 			}
 		}
@@ -112,6 +121,8 @@ public class Customer implements Runnable
 		this.trolley = trolley;
 	}
 
+	// This method gets the time difference 
+	// by getting the difference between adding to the queue and finishing  
 	public double getWaitingTimeInQueue( long trolleyClearedTime )
 	{
 		return ( trolleyClearedTime - queueJoinedTime ) / 1000;

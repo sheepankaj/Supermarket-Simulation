@@ -9,7 +9,11 @@ import simulator.ui.SimulatorUI;
 import simulator.util.CustomerGenerator;
 import simulator.util.StatCalculator;
 
-public class Demo 
+/**
+ * This class is responsible for starting UI and other threads
+ *
+ */
+public class Demo
 {
 	public static List<CheckoutQueue> checkOutQueues = new ArrayList<>();
 	private List<Thread> checkOutQueueThreads;
@@ -18,79 +22,93 @@ public class Demo
 	private StatCalculator statCalculator;
 	private List<Customer> customersInSystem;
 	private SimulatorUI ui;
-	private int [] below5ItemsCheckouts = {4,7};
+	private int[] below5ItemsCheckouts = { 4, 7 }; // set the below 5 items checkouts
 
-	public static void main(String[] args) 
-	{		
+	public static void main( String[] args )
+	{
 		SimulatorUI ui = new SimulatorUI();
-		ui.setVisible(true);	
-		
+		ui.setVisible( true );
+
 	}
-	
+
 	private Demo()
 	{
-		customerGenerator = new CustomerGenerator(200,1);
+		customerGenerator = new CustomerGenerator( 200, 1 );
 		statCalculator = new StatCalculator( ui );
 		checkOutQueueThreads = new ArrayList<>();
 		customersInSystem = new ArrayList<>();
 	}
-	
+
 	public static Demo getDemoInstance()
 	{
-		if(demo == null)
+		if ( demo == null )
 		{
 			demo = new Demo();
 		}
 		return demo;
 	}
-	
+
+	/**
+	 * This method creates the CheckoutQueue instances which act like supermarket counters
+	 */
 	public void startCheckoutQueues()
 	{
-		for(int i = 0; i < 8; i++)
+		// Added synchronization here so that CustomerGenerator thread won't start generating Customer threads until the checkout queues are generated
+		synchronized ( checkOutQueues )
 		{
-			CheckoutQueue queue = null;
-			if(contains( i+1 ))
+			for ( int i = 0; i < 8; i++ )
 			{
-				queue = new CheckoutQueue(5,(i+1));
+				CheckoutQueue queue = null;
+				if ( contains( i + 1 ) )
+				{
+					queue = new CheckoutQueue( 5, ( i + 1 ) );
+				}
+				else
+				{
+					queue = new CheckoutQueue( ( i + 1 ) );
+				}
+				checkOutQueues.add( queue );
 			}
-			else
-			{
-				queue = new CheckoutQueue((i+1));
-			}			 
-			//queue.setCheckOutName( "Checkout Queue : "+(i+1) );
-			//queue.setQueueId( i+1 );
-			//Thread t = new Thread(queue,queue.getCheckOutName());
-			checkOutQueues.add(queue);
-			//checkOutQueueThreads.add(t);
-			//t.start();
+			checkOutQueues.notify();
 		}
+		
 	}
-	
+
 	public void startCustomerGenerator()
 	{
-		new Thread(customerGenerator,"Customer Generator").start();
+		new Thread( customerGenerator, "Customer Generator" ).start();
 	}
-	
-	public void startStatCalculator(SimulatorUI ui)
+
+	public void startStatCalculator( SimulatorUI ui )
 	{
 		statCalculator.setUi( ui );
-		new Thread(statCalculator,"Stat Calculator").start();
+		new Thread( statCalculator, "Stat Calculator" ).start();
 	}
-	
-	private boolean contains(int item) {
-	      for (int n : this.below5ItemsCheckouts) {
-	          if (item == n) {
-	             return true;
-	          }
-	       }
-	       return false;
+
+	/**
+	 * This method checks if the CheckoutQueue's id number is inside below 5 items setup
+	 * @param item
+	 * @return
+	 */
+	private boolean contains( int item )
+	{
+		for ( int n : this.below5ItemsCheckouts )
+		{
+			if ( item == n )
+			{
+				return true;
+			}
+		}
+		return false;
 	}
-	
-	public List<Customer> getCustomersInSystem() {
+
+	public List<Customer> getCustomersInSystem()
+	{
 		return customersInSystem;
 	}
 
-	public void setCustomersInSystem(List<Customer> customersInSystem) {
+	public void setCustomersInSystem( List<Customer> customersInSystem )
+	{
 		this.customersInSystem = customersInSystem;
 	}
 
