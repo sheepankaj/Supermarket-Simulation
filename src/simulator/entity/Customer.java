@@ -50,7 +50,7 @@ public class Customer implements Runnable
 						{
 							if ( customers.size() < 6 )
 							{
-								customers.add( this );
+								customers.add( this  );
 								JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
 								textField.setText( Integer.toString( customers.size() ) );
 								System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
