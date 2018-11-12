@@ -36,10 +36,6 @@ public class Customer implements Runnable
 	{
 		// get the trolley created with the random number of products
 		trolley = new Trolley( generator.getRandomNumberInRange( 0, 200 ) );
-		if(trolley.getProductCount() < 5)
-		{
-			System.out.println( "## BELOW 5 ##" );
-		}
 		List<CheckoutQueue> checkoutQueues = Demo.checkOutQueues;
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
