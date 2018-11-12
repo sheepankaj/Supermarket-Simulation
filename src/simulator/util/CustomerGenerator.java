@@ -49,6 +49,7 @@ public class CustomerGenerator implements Runnable{
 			Demo.getDemoInstance().getUi().getTxTotalCustomersInMarket().setText( Integer.toString( customerCounter ) );
 			try 
 			{
+				// Sleeping this thread for a period to match real world situation 
 				Thread.sleep(timeInterval*60*1000);
 			} 
 			catch (InterruptedException e) {
