@@ -42,6 +42,7 @@ public class SimulatorUI extends JFrame {
 	private JTextField txCheckout_7;
 	private JTextField txCheckout_8;
 	private Map<Integer,JTextField> checkOutAssociationMap = new HashMap<>(8);
+	private Map<Integer,JLabel> checkOutLabelAssociationMap = new HashMap<>(8);
 	private JTextField txTotalCustomersInMarket;
 	private JTextField txCurrentlyProcessing;
 	/**
@@ -62,6 +63,7 @@ public class SimulatorUI extends JFrame {
 		contentPane.add(checkOuts);
 		
 		JLabel lbCheckout_1 = new JLabel("Checkout : 01");
+		checkOutLabelAssociationMap.put( 1, lbCheckout_1 );
 		
 		txCheckout_1 = new JTextField();
 		txCheckout_1.setText("0");
@@ -69,6 +71,7 @@ public class SimulatorUI extends JFrame {
 		txCheckout_1.setColumns(5);
 		
 		JLabel lbCheckout_2 = new JLabel("Checkout : 02");
+		checkOutLabelAssociationMap.put( 2, lbCheckout_2 );
 		
 		txCheckout_2 = new JTextField();
 		txCheckout_2.setText("0");
@@ -76,13 +79,14 @@ public class SimulatorUI extends JFrame {
 		txCheckout_2.setColumns(5);
 		
 		JLabel lbCheckout_3 = new JLabel("Checkout : 03");
-		
+		checkOutLabelAssociationMap.put( 3, lbCheckout_3 );
 		txCheckout_3 = new JTextField();
 		txCheckout_3.setText("0");
 		checkOutAssociationMap.put( 3, txCheckout_3 );
 		txCheckout_3.setColumns(5);
 		
 		JLabel lbCheckout_4 = new JLabel("Checkout : 04");
+		checkOutLabelAssociationMap.put( 4, lbCheckout_4 );
 		
 		txCheckout_4 = new JTextField();
 		txCheckout_4.setText("0");
@@ -90,6 +94,7 @@ public class SimulatorUI extends JFrame {
 		txCheckout_4.setColumns(5);
 		
 		JLabel lbCheckout_5 = new JLabel("Checkout : 05");
+		checkOutLabelAssociationMap.put( 5, lbCheckout_5 );
 		
 		txCheckout_5 = new JTextField();
 		txCheckout_5.setText("0");
@@ -97,6 +102,7 @@ public class SimulatorUI extends JFrame {
 		txCheckout_5.setColumns(5);
 		
 		JLabel lbCheckout_6 = new JLabel("Checkout : 06");
+		checkOutLabelAssociationMap.put( 6, lbCheckout_6 );
 		
 		txCheckout_6 = new JTextField();
 		txCheckout_6.setText("0");
@@ -104,13 +110,16 @@ public class SimulatorUI extends JFrame {
 		txCheckout_6.setColumns(5);
 		
 		JLabel lbCheckout_7 = new JLabel("Checkout : 07");
+		checkOutLabelAssociationMap.put( 7, lbCheckout_7 );
 		
 		txCheckout_7 = new JTextField();
 		txCheckout_7.setText("0");
 		checkOutAssociationMap.put( 7, txCheckout_7 );
+		
 		txCheckout_7.setColumns(5);
 		
 		JLabel lbCheclout_8 = new JLabel("Checkout : 08");
+		checkOutLabelAssociationMap.put( 8, lbCheclout_8 );
 		
 		txCheckout_8 = new JTextField();
 		txCheckout_8.setText("0");
@@ -435,4 +444,11 @@ public class SimulatorUI extends JFrame {
 	{
 		return txNoOfLostCustomers;
 	}
+
+	public Map<Integer, JLabel> getCheckOutLabelAssociationMap()
+	{
+		return checkOutLabelAssociationMap;
+	}
+	
+	
 }

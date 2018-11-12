@@ -36,6 +36,10 @@ public class Customer implements Runnable
 	{
 		// get the trolley created with the random number of products
 		trolley = new Trolley( generator.getRandomNumberInRange( 0, 200 ) );
+		if(trolley.getProductCount() < 5)
+		{
+			System.out.println( "## BELOW 5 ##" );
+		}
 		List<CheckoutQueue> checkoutQueues = Demo.checkOutQueues;
 		if ( !Demo.checkOutQueues.isEmpty() )
 		{
@@ -50,32 +54,52 @@ public class Customer implements Runnable
 					Queue<Customer> customers = queue.getCustomers();
 					// Try to get the lock, if not continue for the next iteration
 					Lock sharedLock = queue.getSharedLock();
-					if ( sharedLock.tryLock() && queue.getMaximumProductCount() > trolley.getProductCount() )
-					{
+					if ( sharedLock.tryLock())
+					{						
 						try
 						{
-							if ( customers.size() < 6 )
+							if(( trolley.getProductCount() < Demo.EXPRESS_CHECKOUT_ITEMS ) && Demo.contains( queue.getQueueId()))
 							{
-								customers.add( this );
-								JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
-								textField.setText( Integer.toString( customers.size() ) );
-								System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
-								// stamp the time when the customer joins the queue
-								queueJoinedTime = System.currentTimeMillis();
-								foundAQueue = true;
-								if ( customers.size() == 1 )
+								if ( customers.size() < 6 )
 								{
-									queue.getCondition().signal();
+									customers.add( this );
+									JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
+									textField.setText( Integer.toString( customers.size() ) );
+									System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
+									// stamp the time when the customer joins the queue
+									queueJoinedTime = System.currentTimeMillis();
+									foundAQueue = true;
+									if ( customers.size() == 1 )
+									{
+										queue.getCondition().signal();
+									}
+									break outerLoop;
 								}
-								break outerLoop;
 							}
-
+							else if(queue.getMaximumProductCount() > trolley.getProductCount())
+							{
+								if ( customers.size() < 6 )
+								{
+									customers.add( this );
+									JTextField textField = Demo.getDemoInstance().getUi().getCheckOutAssociationMap().get( queue.getQueueId() );
+									textField.setText( Integer.toString( customers.size() ) );
+									System.out.println( "Current Customers in the " + queue.getCheckOutName() + " Checkout Queue : " + customers.size() );
+									// stamp the time when the customer joins the queue
+									queueJoinedTime = System.currentTimeMillis();
+									foundAQueue = true;
+									if ( customers.size() == 1 )
+									{
+										queue.getCondition().signal();
+									}
+									break outerLoop;
+								}
+							}
 						}
 						finally
 						{
 							sharedLock.unlock();
 						}
-					}
+					}					
 					else
 					{
 						continue;

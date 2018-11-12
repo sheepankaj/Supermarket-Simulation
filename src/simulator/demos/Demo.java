@@ -1,5 +1,6 @@
 package simulator.demos;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,8 @@ public class Demo
 	private StatCalculator statCalculator;
 	private List<Customer> customersInSystem;
 	private SimulatorUI ui;
-	private int[] below5ItemsCheckouts = { 4, 7 }; // set the below 5 items checkouts
+	private static int[] below5ItemsCheckouts = { 4, 7}; // set the below 5 items checkouts
+	public static int EXPRESS_CHECKOUT_ITEMS = 5;
 
 	public static void main( String[] args )
 	{
@@ -62,6 +64,7 @@ public class Demo
 				if ( contains( i + 1 ) )
 				{
 					queue = new CheckoutQueue( 5, ( i + 1 ) );
+					ui.getCheckOutLabelAssociationMap().get( i + 1 ).setForeground( Color.GREEN);
 				}
 				else
 				{
@@ -90,9 +93,9 @@ public class Demo
 	 * @param item
 	 * @return
 	 */
-	private boolean contains( int item )
+	public static boolean contains( int item )
 	{
-		for ( int n : this.below5ItemsCheckouts )
+		for ( int n : below5ItemsCheckouts )
 		{
 			if ( item == n )
 			{
