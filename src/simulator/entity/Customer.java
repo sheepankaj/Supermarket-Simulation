@@ -10,7 +10,8 @@ import simulator.demos.Demo;
 import simulator.util.RandomNumberGenerator;
 
 /**
- * Created by Shamitha on 15-Sep-18.
+ * @author Juliyanage Silva 18059546 
+ * This class acts as the real world Customer coming to the Super market
  */
 public class Customer implements Runnable
 {

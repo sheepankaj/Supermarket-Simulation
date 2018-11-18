@@ -1,7 +1,8 @@
 package simulator.entity;
 
 /**
- * Created by Shamitha on 15-Sep-18.
+ * @author Juliyanage Silva 18059546 
+ * This is the trolley for the customer
  */
 public class Trolley {
     private int productCount;

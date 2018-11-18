@@ -3,6 +3,10 @@ package simulator.util;
 import simulator.demos.Demo;
 import simulator.entity.Customer;
 
+/**
+ * @author Pankaj Kumar Shee-18125638 
+ * This class generates Customers randomly after specified time period.
+ */
 public class CustomerGenerator implements Runnable{
 	RandomNumberGenerator generator;
 	static int customerCounter;

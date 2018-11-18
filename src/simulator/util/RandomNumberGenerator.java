@@ -3,7 +3,8 @@ package simulator.util;
 import java.util.Random;
 
 /**
- * Created by Shamitha on 15-Sep-18.
+ * @author Pankaj Kumar Shee-18125638 
+ * This class is responsible of generating random numbers
  */
 public class RandomNumberGenerator
 {

@@ -13,7 +13,7 @@ import simulator.demos.Demo;
 import simulator.util.RandomNumberGenerator;
 
 /**
- * @author Shamitha 
+ * @author Juliyanage Silva 18059546 
  * This class acts as the real world Checkout of a Supermarket
  */
 public class CheckoutQueue implements Runnable

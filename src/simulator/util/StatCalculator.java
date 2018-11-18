@@ -8,6 +8,11 @@ import simulator.entity.CheckoutQueue;
 import simulator.entity.Customer;
 import simulator.ui.SimulatorUI;
 
+/**
+ * @author Juliyanage Silva 18059546 
+ * This class runs as a separate thread and collects stats from Customers and the checkouts
+ * upon them, updates the UI
+ */
 public class StatCalculator implements Runnable
 {
 	SimulatorUI ui ;

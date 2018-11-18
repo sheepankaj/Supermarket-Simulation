@@ -11,8 +11,8 @@ import simulator.util.CustomerGenerator;
 import simulator.util.StatCalculator;
 
 /**
- * This class is responsible for starting UI and other threads
- *
+ * @author Pankaj Kumar Shee-18125638 
+ * This class initiates the whole program. 
  */
 public class Demo
 {

@@ -19,6 +19,10 @@ import javax.swing.border.TitledBorder;
 
 import simulator.demos.Demo;
 
+/**
+ * @author Pankaj Kumar Shee-18125638 
+ * This class having the whole UI part
+ */
 public class SimulatorUI extends JFrame {
 
 	/**
