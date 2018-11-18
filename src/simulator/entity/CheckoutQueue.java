@@ -23,12 +23,14 @@ public class CheckoutQueue implements Runnable
 	private String checkOutName;
 	private int queueId;
 	private double totalCustomerWaitingTime;
+	private double totalUtilizingTime;
 	private int totalCustomersProcessed;
 	private int totalProductsProcessed;
 	private int maximumProductCount = 200;
 	private Lock sharedLockOnQueue = new ReentrantLock();
 	private Lock sharedLockOnStats = new ReentrantLock();
 	private Condition conditionOnQueue;
+	private long startedTime;
 
 	public CheckoutQueue(int nameID)
 	{
@@ -36,6 +38,7 @@ public class CheckoutQueue implements Runnable
 		generator = new RandomNumberGenerator();
 		checkOutName = "Checkout Queue : "+nameID;
 		queueId = nameID;
+		startedTime = System.currentTimeMillis();
 		new Thread(this,checkOutName).start();
 	}
 
@@ -91,6 +94,7 @@ public class CheckoutQueue implements Runnable
 				{
 					//System.out.println( "Customer is being processed.." );
 					double tempTime = generator.getRandomDecimalNumberInRange( 0.5, 6 );
+					totalUtilizingTime += tempTime;
 					long scanTime = ( long ) tempTime * 1000;
 					DecimalFormat df = new DecimalFormat( "#.##" );
 					// System.out.println( df.format( tempTime ) );
@@ -192,4 +196,19 @@ public class CheckoutQueue implements Runnable
 	{
 		return sharedLockOnStats;
 	}	
+	
+	/*
+	 * This method gets the total time that this checkout has been opened 
+	 */
+	public double getCheckoutTotalAvailabiltyUptoNow( long currenttime )
+	{
+		return ( currenttime - startedTime ) / 1000;
+	}
+
+	public double getTotalUtilizingTime()
+	{
+		return totalUtilizingTime;
+	}
+	
+	
 }
