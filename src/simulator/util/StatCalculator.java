@@ -42,11 +42,13 @@ public class StatCalculator implements Runnable
 			int totalProductsProcessed = 0;
 			double totalWaitingTimeForCustomer = 0;			
 			double totalUtilizationTime = 0;			
-			double totalCheckoutOpenedTime = 0;			
+			double totalCheckoutOpenedTime = 0;	
+			double singleUtilizationTotal = 0;
 			DecimalFormat df = new DecimalFormat("#.##");
 			df.setRoundingMode(RoundingMode.CEILING);
 			try 
 			{
+				
 				ui.getTxNoOfLostCustomers().setText( Integer.toString(Customer.lostCustomers));
 				for(CheckoutQueue queue : Demo.checkOutQueues)
 				{
@@ -60,6 +62,7 @@ public class StatCalculator implements Runnable
 							totalProductsProcessed += queue.getTotalProductsProcessed();
 							totalUtilizationTime += queue.getTotalUtilizingTime();
 							totalCheckoutOpenedTime += queue.getCheckoutTotalAvailabiltyUptoNow( System.currentTimeMillis() );
+							singleUtilizationTotal += queue.singelCheckoutUtilization();
 						}
 						finally {
 							queue.getSharedLockOnStats().unlock();
@@ -82,11 +85,11 @@ public class StatCalculator implements Runnable
 				if(totalCheckoutOpenedTime > 0)
 				{
 					ui.getTxTotUtiForCheckout().setText(df.format((totalUtilizationTime/totalCheckoutOpenedTime)*100));
-					ui.getTxAvgCheckoutUtilization().setText(df.format((totalUtilizationTime/totalCheckoutOpenedTime)*100/8));
+					ui.getTxAvgCheckoutUtilization().setText(df.format(singleUtilizationTotal/8));
 				}
-				
 				// updating UI having 5 sec time gaps
 				Thread.sleep(1000);
+				
 			} 
 			catch (InterruptedException e) 
 			{

@@ -89,7 +89,7 @@ public class CheckoutQueue implements Runnable
 			}
 			if ( customer != null )
 			{
-				int trolleyProductCount = customer.getTrolley().getProductCount();				
+				int trolleyProductCount = customer.getTrolley().getProductCount();	
 				for ( int i = 0; i < trolleyProductCount; i++ )
 				{
 					//System.out.println( "Customer is being processed.." );
@@ -208,6 +208,13 @@ public class CheckoutQueue implements Runnable
 	public double getTotalUtilizingTime()
 	{
 		return totalUtilizingTime;
+	}
+	
+	public double singelCheckoutUtilization()
+	{
+		double presentage = 0;
+		presentage = (totalUtilizingTime/getCheckoutTotalAvailabiltyUptoNow( System.currentTimeMillis())*100 );
+		return presentage;
 	}
 	
 	
